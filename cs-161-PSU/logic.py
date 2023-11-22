@@ -11,11 +11,13 @@ This is part of the Escape Room Game
 
 #WIP game map
 gameMapString=[
-  "#####",
-  "# j #",
-  "# @t#",
-  "#   #",
-  "#####"
+  "#######",
+  "# j   #",
+  "# @t  #",
+  "#     #",
+  "#~~~~~#",
+  "#~~~~~#".
+  "#######"
 ]
 
 
@@ -23,7 +25,7 @@ gameMapString=[
 gameMap=[]
 
 
-traversableThings=[" "]
+traversableThings=[" ", "~"]
 player=(2, 2)
 
 
