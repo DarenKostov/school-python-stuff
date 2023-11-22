@@ -11,15 +11,20 @@ This is part of the Escape Room Game
 
 #WIP game map
 gameMapString=[
-  "#######",
-  "# j   #",
-  "# @t  #",
-  "#     #",
-  "#~~~~~#",
-  "#~~~~~#".
-  "#######"
+  "########################",
+  "# t    #               #",
+  "# @j     #########     #",
+  "#                      #",
+  "##~~~~~#~~~~~~~ #     ##",
+  "# ~~~~~#~~~~~~~ #      #",
+  "# ~~~~~#~~~~~~~ #      #",
+  "# ~~~~~~~~~~~~~ #      #",
+  "# ~~~~~~~~~#~~~ #      #",
+  "#          #    #    ###",
+  "# ######   #      #    #",
+  "#                 #    #",
+  "########################",
 ]
-
 
 
 gameMap=[]
@@ -27,16 +32,19 @@ gameMap=[]
 
 traversableThings=[" ", "~"]
 player=(2, 2)
+visibility=4
 
 
 
 #====> the 2 while loops <====
 #make the map into a 2d array
 x=0
-while x<len(gameMapString):
+while x<len(gameMapString[0]):
   y=0
   gameMap.append([])
-  while y<len(gameMapString[0]):
+  gameMap[x]=[]
+  while y<len(gameMapString):
+    # print(y)
     gameMap[x].append(gameMapString[y][x])
     y+=1
   x+=1
@@ -44,15 +52,10 @@ while x<len(gameMapString):
 def printBoard():
   global gameMap
 
-  #====> the 2 while loops <====
-  y=0
-  while y<len(gameMap[0]):
-    x=0
-    while x<len(gameMap):
+  for y in range(max(0, player[1]-visibility), min(player[1]+visibility, len(gameMapString[0]))):
+    for x in range(max(0, player[0]-visibility), min(player[0]+visibility, len(gameMapString))):
       print(gameMap[x][y], end="")
-      x+=1
     print()
-    y+=1
 
 
 def isTraversable(thing):
