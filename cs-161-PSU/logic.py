@@ -93,7 +93,7 @@ def movePlayer(deltaX, deltaY):
 
 def updateGlider(x, y, dx, dy, altState):
   if isTraversable(gameMap[x+dx][y+dy]):
-    swap((x, y), (x+dy, y+dy))
+    swap((x, y), (x+dx, y+dy))
   else:
     gameMap[x][y]=altState
 
