@@ -45,7 +45,6 @@ inventory={
   "+": 3
 }
 
-# inventory=[]
 
 #====> the 2 while loops <====
 #make the map into a 2d char array
@@ -92,9 +91,8 @@ def movePlayer(deltaX, deltaY):
   
   if isTraversable(gameMap[player[0]+deltaX][player[1]+deltaY]):
     #swap player and the thing we move into
-    temp=gameMap[player[0]+deltaX][player[1]+deltaY]
-    gameMap[player[0]+deltaX][player[1]+deltaY]='@'
-    gameMap[player[0]][player[1]]=temp
+    swap((player[0]+deltaX, player[1]+deltaY),
+      (player[0], player[1]))
 
     #move the coordinates of the player
     player=(player[0]+deltaX, player[1]+deltaY)
