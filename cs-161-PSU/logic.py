@@ -55,8 +55,8 @@ while x<len(gameMapString[0]):
 def printBoard():
   global gameMap
 
-  for y in range(max(0, player[1]-visibility), min(player[1]+visibility, len(gameMapString))):
-    for x in range(max(0, player[0]-visibility), min(player[0]+visibility, len(gameMapString[0]))):
+  for y in range(max(0, player[1]-visibility), min(player[1]+visibility, len(gameMap[0]))):
+    for x in range(max(0, player[0]-visibility), min(player[0]+visibility, len(gameMap))):
       print(gameMap[x][y], end="")
     print()
 
@@ -83,6 +83,17 @@ def movePlayer(deltaX, deltaY):
     #move the coordinates of the player
     player=(player[0]+deltaX, player[1]+deltaY)
 
+
+# def updateGliders():
+#   for x in range(1, len(gameMapString[0])-1):
+#     for y in range(1, len(gameMapString)-1):
+#       if 
+  
+  
+
+# def updateMap():
+
+  
 
 
 printBoard()
