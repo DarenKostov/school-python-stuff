@@ -12,8 +12,8 @@ This is part of the Escape Room Game
 #WIP game map
 gameMapString=[
   "########################",
-  "# t    #               #",
-  "# @j     #########     #",
+  "# t>   #               #",
+  "# @j   v #########     #",
   "#                      #",
   "##~~~~~#~~~~~~~ #     ##",
   "# ~~~~~#~~~~~~~ #      #",
@@ -26,8 +26,8 @@ gameMapString=[
   "########################",
 ]
 
-print(len(gameMapString[0]))
-print(len(gameMapString))
+# print(len(gameMapString[0]))
+# print(len(gameMapString))
 
 gameMap=[]
 
@@ -91,23 +91,30 @@ def movePlayer(deltaX, deltaY):
     player=(player[0]+deltaX, player[1]+deltaY)
 
 
-def updateGlider(x, y, dx, dy, state1, state2):
-  if isTraversable(gameMap[x+dx][y+dy]]):
-    
-
+def updateGlider(x, y, dx, dy, altState):
+  if isTraversable(gameMap[x+dx][y+dy]):
+    swap((x, y), (x+dy, y+dy))
+  else:
+    gameMap[x][y]=altState
 
   
 def updateGliders():
   for x in range(1, len(gameMap)-1):
     for y in range(1, len(gameMap[0])-1):
       if gameMap[x][y]==">":
-        updateGlider(x, y, 1, 0, ">", "<")
+        updateGlider(x, y, 1, 0, "<")
+      elif gameMap[x][y]=="<":
+        updateGlider(x, y, -1, 0, ">")
+      elif gameMap[x][y]=="^":
+        updateGlider(x, y, 0, -1, "v")
+      elif gameMap[x][y]=="v":
+        updateGlider(x, y, 0, 1, "^")
         
   
   
 
 def updateMap():
-
+  updateGliders()
   
 
 
