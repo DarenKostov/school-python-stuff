@@ -34,7 +34,7 @@ gameMap=[]
 
 traversableThings=[" ", "~"]
 player=(2, 2)
-visibility=49
+visibility=4
 
 
 
@@ -69,6 +69,13 @@ def isTraversable(thing):
       return True
   return False
 
+def swap(coord1, coord2):
+  temp=gameMap[coord1[0]][coord1[1]]
+  gameMap[coord1[0]][coord1[1]]=gameMap[coord2[0]][coord2[1]]
+  gameMap[coord2[0]][coord2[1]]=temp
+
+  
+
 def movePlayer(deltaX, deltaY):
 
   global gameMap
@@ -84,19 +91,27 @@ def movePlayer(deltaX, deltaY):
     player=(player[0]+deltaX, player[1]+deltaY)
 
 
-# def updateGliders():
-#   for x in range(1, len(gameMapString[0])-1):
-#     for y in range(1, len(gameMapString)-1):
-#       if 
+def updateGlider(x, y, dx, dy, state1, state2):
+  if isTraversable(gameMap[x+dx][y+dy]]):
+    
+
+
+  
+def updateGliders():
+  for x in range(1, len(gameMap)-1):
+    for y in range(1, len(gameMap[0])-1):
+      if gameMap[x][y]==">":
+        updateGlider(x, y, 1, 0, ">", "<")
+        
   
   
 
-# def updateMap():
+def updateMap():
 
   
 
 
-printBoard()
+# printBoard()
 # movePlayer(-1, 0)
 # printBoard()
 # movePlayer(0, -1)
