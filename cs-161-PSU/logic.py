@@ -26,20 +26,29 @@ gameMapString=[
   "########################",
 ]
 
-# print(len(gameMapString[0]))
-# print(len(gameMapString))
 
 gameMap=[]
 
-
 traversableThings=[" ", "~"]
+breakableThings=["@", "="]
+collectableThings=["$", "J", "*", "+"]
+burnableThings=["=", "+"]
+
+
 player=(2, 2)
 visibility=4
 
+inventory={
+  "$": 0,
+  "J": 0,
+  "*": 0,
+  "+": 3
+}
 
+# inventory=[]
 
 #====> the 2 while loops <====
-#make the map into a 2d array
+#make the map into a 2d char array
 x=0
 while x<len(gameMapString[0]):
   y=0
