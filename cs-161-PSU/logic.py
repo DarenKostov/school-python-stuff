@@ -26,13 +26,15 @@ gameMapString=[
   "########################",
 ]
 
+print(len(gameMapString[0]))
+print(len(gameMapString))
 
 gameMap=[]
 
 
 traversableThings=[" ", "~"]
 player=(2, 2)
-visibility=4
+visibility=49
 
 
 
@@ -45,15 +47,16 @@ while x<len(gameMapString[0]):
   gameMap[x]=[]
   while y<len(gameMapString):
     # print(y)
-    gameMap[x].append(gameMapString[y][x])
+    gameMap[x].append(0)
+    gameMap[x][y]=gameMapString[y][x]
     y+=1
   x+=1
 
 def printBoard():
   global gameMap
 
-  for y in range(max(0, player[1]-visibility), min(player[1]+visibility, len(gameMapString[0]))):
-    for x in range(max(0, player[0]-visibility), min(player[0]+visibility, len(gameMapString))):
+  for y in range(max(0, player[1]-visibility), min(player[1]+visibility, len(gameMapString))):
+    for x in range(max(0, player[0]-visibility), min(player[0]+visibility, len(gameMapString[0]))):
       print(gameMap[x][y], end="")
     print()
 
@@ -83,9 +86,9 @@ def movePlayer(deltaX, deltaY):
 
 
 printBoard()
-movePlayer(-1, 0)
-printBoard()
-movePlayer(0, -1)
-printBoard()
+# movePlayer(-1, 0)
+# printBoard()
+# movePlayer(0, -1)
+# printBoard()
 
 
