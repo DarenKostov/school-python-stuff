@@ -31,6 +31,30 @@ def main_menu():
       print("invalid input")
     
 
+def playATurn(choice):
+  dx=0
+  dy=0
+  
+  if choice == "w":
+    (dx, dy)=(0, -1)
+  elif choice == "a":
+    (dx, dy)=(-1, 0)
+  elif choice == "s":
+    (dx, dy)=(0, 1)
+  elif choice == "d":
+    (dx, dy)=(1, 0)
+  elif choice== "e":
+    # printInventory()
+    print("aaaa")
+  else:
+    print("invalid input")
+    return
+
+  
+  updatePlayerAndMap(dx, dy)
+  printBoard()
+
+
 
 def main_loop_Menu():
   
@@ -46,28 +70,29 @@ def main_loop_Menu():
     if len(choice)==0:
       choice=previousChoice
       
+    playATurn(choice)
     
-    if choice == "w":
-      movePlayer(0, -1)
-    elif choice == "a":
-      movePlayer(-1, 0)
-    elif choice == "s":
-      movePlayer(0, 1)
-    elif choice == "d":
-      movePlayer(1, 0)
+    # if choice == "w":
+    #   movePlayer(0, -1)
+    # elif choice == "a":
+    #   movePlayer(-1, 0)
+    # elif choice == "s":
+    #   movePlayer(0, 1)
+    # elif choice == "d":
+    #   movePlayer(1, 0)
 
       
       
-    else:
-      validInput=False
+    # else:
+    #   validInput=False
 
 
-    if validInput:
-      previousChoice=choice
-      updateMap()
-      printBoard()
-    else:
-      print("invalid input")
+    # if validInput:
+    #   previousChoice=choice
+    #   updateMap()
+    #   printBoard()
+    # else:
+    #   print("invalid input")
 
 def invatory_menu():
   keys = 0
