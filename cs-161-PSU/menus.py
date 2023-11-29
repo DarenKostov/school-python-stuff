@@ -98,7 +98,7 @@ def main_loop_Menu():
   #while the player has not yet won or lost run the loop
   while didPlayerDie()+didPlayerWin()==0:
     
-    choice = input("click WASD keys to move\nor E to print inventory: ").lower()
+    choice = input("Type WASD keys to move\nE to print inventory\nor Q to quit: ").lower()
 
     #in case we wanna quit the current game
     if choice=="q":
