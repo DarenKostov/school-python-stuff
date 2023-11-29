@@ -12,20 +12,20 @@ This is part of the Escape Room Game
 #WIP game map
 gameMapString=[
   "##########################################################",
-  "#      J #~~~~~~~~~    i      #    #   #  J             <#",
-  "# @  i   #~~~~~~~~####    $   =  i H<#           ^   <#  #",
+  "#      J #~~~~~~~~~    i      #    #i* #  J             <#",
+  "# @  i   #~~~~~~~~####    $   =  i H<#        $  ^   <#  #",
   "#        #~~~~~~~#   #        #    #>       ^   <#>   v  #",
   "###H######      #  $ #  i     #    #       <#>   v ^     #",
   "#        =  i +#   $ #        #    #  ^     v     <#>    #",
-  "#  i  ** #######     #>       #    #  #> ^    J    v     #",
+  "#  i  *  #######     #>       #    #  #> ^    J    v     #",
   "##########    ###   ##       <#    #  v <#>     ^        #",
   "#       #     ~~~~~~~#   ##   #    #     v   ^ <#>  J    #",
   "#  |J|  #     ~~~~~~~#    v   #    #        <#> v        #",
-  "#  |+|  =     ~~~~~                # J  ^    v           #",
+  "#  |+|  =     ~~~~~                # J  ^ $  v          $#",
   "#       #     ~~~~~      ^         #   <#>       ^       #",
-  "####################################    v       <#>      #",
-  "#>        |*        <#      ~~~~~~~~#            v      ##",
-  "#>        |*        <#     #~~~~~~~~ ##      ###      ## #",
+  "####################################    v       <#>     ^#",
+  "#>        |*    $   <#      ~~~~~~~~#            v      ##",
+  "#>        |*   $    <#     #~~~~~~~~ ##      ###      ## #",
   "#>        |*|*      <#    <#~~~~~~~~ +####         ###   #",
   "#>                   #>    #~~~~~~~~ +#   ####H####      #",
   "#>                   #    <#~~~~~~~~ ##      #H#       $ #",
@@ -35,21 +35,21 @@ gameMapString=[
   "#>        |  ***     ## J #        H  #                  #",
   "#>                   ######         ######################",
   "#>                   #              #***                <#",
-  "#>           ^^^^^^  #              #**>                 #",
+  "#>           ^^^^^^ $#              #**>                 #",
   "########### ##########              #***                <#",
-  "#==============      #      ##      ###################  #",
+  "#$=============      #      ##      ###################  #",
   "#==============#>       #>  $$  <#      <#       *     * #",
   "#==============      ################         *          #",
   "#H######### ##########   +       +  ######################",
   "#      #    #>> >>  v#             #>~~~~~~~~~~~~~~#  i  #",
   "###  ###v           v#   +    +   #>~~~~~~~~~~~~~~~#     #",
   "#vv  vv#v    *J*     #           #>~~~~~~~~~~#~~+~~##   ##",
-  "#      #            v#   +  +   #>~~~~~~~~~~~#~~~~~### ###",
+  "#      #            v#   +  +   #>~~~~$~~~~~~#~~~~~### ###",
   "#      #>> >> >> >> v#         #>~~~~~~~~~~~~#~~~~~#~~~~~#",
   "###  ##################  +    #>~~~~~~~~~~~~~#~~~~~#~~~~~#",
   "#vv    #>            <#      #>~~~~~~~~~~~~~~#~~+~~#~~~~~#",
   "#                                 #~~~~+~~~~~#~~~~~~~~+~~#",
-  "#>    <#>            <#           #~~~~~~~~~~#~~~~~~~~~~~#",
+  "#>    <#>            <#           #~~~~~~~~~~#$~~~~~~~~~~#",
   "##########################################################",
 ]
 
@@ -78,12 +78,25 @@ i - tells you info, or changes stuff
 
 
 
+info=[]
+info.append("There is a door bellow you, the key to it is at the right top corner of this room.\nGo get it, and get out of this room!")
+info.append("Those are fire gems to the right, you can burn wood with them.\nThere are wooden planks blocking the exit, go and burn them!")
+info.append("Here is some health potions (the \"+\") you'll need them to travel these water (the \"~\")\nGoing through the water worsens your health!")
+info.append("Here is some gold. Take it!")
+info.append("You see those sharp pointy things? They are called gliders.\nIf you get in their way they'll rip you to shreds!\nPass through these corridors and avoid them!")
+info.append("You'll need a key here. BTW the gliders can not only shred you but wood too. Be careful, there is a glider waiting behind the door.")
+info.append("Ok, listen... this looks bad, so I'll give you extended vision")
+info.append("You need 2 keys here, why didn't you take all the keys while you where there? I'm taking away your extended vision!\nIf you did take all keys, good job!")
+info.append("Here you are, at the end of this dungeon... You escaped!")
+
+collectedInfo=False
+
 gameMap=[]
 
 traversableThings=[' ', '~']
 breakableThings=['@', '=']
 collectableThings=['$', 'J', '*', '+', 'i']
-burnableThings=['=', '+']
+interactableThings=['=', 'H']
 
 
 player=(2, 2)
@@ -143,9 +156,9 @@ def isCollectable(thing):
   global collectableThings
   return contains(collectableThings, thing)
 
-def isBurnable(thing):
-  global burnableThings
-  return contains(burnableThings, thing)
+def isInteractable(thing):
+  global interactableThings
+  return contains(interactableThings, thing)
 
 
 
@@ -161,6 +174,7 @@ def movePlayer(deltaX, deltaY):
 
   global gameMap
   global player
+  global inventory
 
   stuffInfront=gameMap[player[0]+deltaX][player[1]+deltaY]
   
@@ -181,10 +195,37 @@ def movePlayer(deltaX, deltaY):
 
     #move the coordinates of the player
     player=(player[0]+deltaX, player[1]+deltaY)
-  elif isTraversable(stuffInfront):
+
+  #if collectable, collect it and try to move the player again
+  elif isCollectable(stuffInfront):
+
+    #collecting info?
+    if stuffInfront=='i':
+      collectedInfo=True
+    
+    inventory[stuffInfront]+=1
+    gameMap[player[0]+deltaX][player[1]+deltaY]=" "
+    movePlayer(deltaX, deltaY)
+
+  #if burnable/openable, auto burn/open it if possible
+  elif isInteractable(stuffInfront):
+    if stuffInfront=='=':
+      if inventory['*']>0:
+        inventory['*']-=1
+        gameMap[player[0]+deltaX][player[1]+deltaY]=" "
+    if stuffInfront=='H':
+      if inventory['J']>0:
+        inventory['J']-=1
+        gameMap[player[0]+deltaX][player[1]+deltaY]=" "
+      
 
 
 def updateGlider(x, y, dx, dy, altState):
+
+  #destroy if breakable
+  if isBreakable(gameMap[x+dx][y+dy]):
+    gameMap[x+dx][y+dy]=" "
+    
   if isTraversable(gameMap[x+dx][y+dy]):
     swap((x, y), (x+dx, y+dy))
   else:
@@ -205,10 +246,33 @@ def updateGliders():
         
   
   
-
 def updateMap():
-  updateGliders()
+  global playerIsDead
+  global playerWon
+  global collectedInfo
+  global info
   
+  updateGliders()
+
+  #have we died?
+  if gameMap[player[0]][player[1]]!='@':
+    playerIsDead=True
+    return
+
+  if collectedInfo:
+    collectedInfo=False
+    print(info[inventory['i']-1])
+
+    if inventory['i']==9:
+      playerWon=True
+      return
+  
+  
+  
+
+def updatePlayerAndMap(dx, dy):
+  movePlayer(dx, dy)
+  updateMap()
 
 printBoard()
 
