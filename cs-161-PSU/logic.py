@@ -76,7 +76,7 @@ i - tells you info, or changes stuff
 
 '''
 
-
+autoActions=""
 
 info=[]
 info.append("There is a door bellow you, the key to it is at the right top corner of this room.\nGo get it, and get out of this room!")

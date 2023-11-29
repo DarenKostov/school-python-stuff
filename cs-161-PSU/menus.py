@@ -38,16 +38,18 @@ def playATurn(choice):
   dx=0
   dy=0
   
-  if choice == "w":
+  if choice=="w":
     (dx, dy)=(0, -1)
-  elif choice == "a":
+  elif choice=="a":
     (dx, dy)=(-1, 0)
-  elif choice == "s":
+  elif choice=="s":
     (dx, dy)=(0, 1)
-  elif choice == "d":
+  elif choice=="d":
     (dx, dy)=(1, 0)
-  elif choice== "e":
+  elif choice=="e":
     printInventory()
+  elif choice==" ":
+    print("no actions performed")
   else:
     print("invalid input")
     return False
@@ -58,6 +60,16 @@ def playATurn(choice):
 
   return True
 
+def printHelp():
+  print('You move by typing "w", "a", "s", and "d"')
+  print('You can also check you inventory with "e", it takes a turn though')
+  print('When you input a space no actions are take but you still play a turn')
+  print('You can also input nothing and your last input will be takes instead')
+  print('When you run into object you auto interact with them')
+  print('Oh and btw make sure you collect the "i"\'s, they\'ll help you')
+  print('Alright that\' all you need to know\n')
+
+  
 
 
 def main_loop_Menu():
@@ -65,6 +77,8 @@ def main_loop_Menu():
   global playerWon
   resetGame()
   
+  printHelp()
+
   printBoard()
   
   previousChoice="none"
@@ -95,7 +109,8 @@ def main_loop_Menu():
 
 
 
-
+def mainGameLoopAuto():
+  
 
 
 
