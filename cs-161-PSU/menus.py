@@ -10,15 +10,15 @@ This is part of the Escape Room Game
 
 
 from logic import *
+from time import sleep
 
-
-
+winningRecord="dddddwssaaaasssssdddddwwdddddddwdwwwwdddddddddsssddwwdddssssssssdddssaaaaaaaaaaaaaaaaaaaaaaaaaaawaaaawwaasssdddwddddwwddddddwwwwddssssssddddds dddddddddddddwwwwwwwwwddwssddwddddsssaassssssdas   wddddddddswdddswdddddwwwwaaaaaaassaaaasaawawwwawaas    wwwwddsddwddss w    ssssssasssdssssddddsssssssaaaadsdddddddddwwwdddwssaassaaaaaaawwaaaaaaaawaasssaawaasssaaaaaaadddddsswwwwwddwwwwdwwdsasawdwaaaaaaawwaaasaaaas ssssssssdssddwwwwdwawwwddddddddddssssssessssssawwwaaaaaasaaaaasssdddwddddddddddssdaawwwdsssddsddddddddddddwdddddddwwaaaaaaawaawaaaaaaaaaaassddwaddddddssssssssssdddddddddddssaaaaaaaaaaaassaaaaaa          wwaawwaaaaaaaaaaaas ssaaasaaaaawwdwwaaaaaaaaawwwwwdda  ddddsawaaaasaaaaaaaawwwwwwwdsdddddddwwwsssddwwdaadddwdaaaaass    sssassdssssssssssssssdddddddaaaaaaawwwwwwwwaaaaawaddddddssssssaaaaaaaaaaaaaaaaaaaaswwwssssdddsssssssdddddddddddddddddddddwwwwwwwwddddddddsasaasssaawssaasassddddddddwwwwdddddwwwwdddddddwdsddsssssssaaddddddddwwwwwwww"
 
 def main_menu():
   print("welcome to our escape room Game!")
 
   while True:
-    choice = input("Type 2 to autoplay the game\nType 1 to start\nType 0 to quit\ninput: ")
+    choice = input("Type 3 to print the legend\nType 2 to autoplay the game\nType 1 to start\nType 0 to quit\ninput: ")
   
     if choice == "1":
       print("Starting the game")
@@ -26,6 +26,8 @@ def main_menu():
     elif choice == "2":
       print("Starting the game in auto mode")
       mainGameLoopAuto()
+    elif choice == "3":
+      prinLegend()
     elif choice == "0":
       print("you choose to quit ")
       quit()
@@ -70,11 +72,25 @@ def printHelp():
   print('("q" quits the game)')
 
   
-
+def printWinOrLose():
+  if didPlayerWin():
+    print("/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\\")
+    print("|==[O]==YOU======()==|")
+    print("|=(:)=====WIN=={$}===|")
+    print("\\____________________/")
+    print()
+    print(f"You got ${getInventory()['$']}/$16")
+    print()
+  else:
+    print("                      ")
+    print("        YOU           ")
+    print("          LOSE        ")
+    print("                      ")
 
 def main_loop_Menu():
 
-  resetGame()
+  
+  resetGame("normal")
   
   printHelp()
 
@@ -106,22 +122,16 @@ def main_loop_Menu():
     if playATurn(choice):
       previousChoice=choice    
     
-  if didPlayerWin():
-    print("/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\\")
-    print("|==[O]==YOU======()==|")
-    print("|=(:)=====WIN=={$}===|")
-    print("\\____________________/")
-  else:
-    print("                      ")
-    print("        YOU           ")
-    print("          LOSE        ")
-    print("                      ")
-
-
+  printWinOrLose()
 
 def mainGameLoopAuto():
-  print("aaa")
+  resetGame("auto")
+  printBoard()
 
+  for i in winningRecord:
+    playATurn(i)
+    sleep(0.1)
+  printWinOrLose()
 
 
 def printInventory():
@@ -130,7 +140,7 @@ def printInventory():
   
   print("\nYour inventoy: ")
   for item in inventory:
-    print(f"{item} = {inventory[item]}")
+    print(f"{item} = {inventory[item]:0.1f}")
   print()
 
 

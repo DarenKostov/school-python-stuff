@@ -21,7 +21,7 @@ gameMapString=[
   "##########    ###   ##       <#    #  v <#>     ^        #",
   "#       #     ~~~~~~~#   ##   #    #     v   ^ <#>  J    #",
   "#  |J|  #     ~~~~~~~#    v   #    #        <#> v        #",
-  "#  |+|  =     ~~~~~                # J  ^ $  v          $#",
+  "#  |+|  =     ~~~~~             *  # J  ^ $  v          $#",
   "#       #     ~~~~~      ^         #   <#>       ^       #",
   "####################################    v       <#>     ^#",
   "#>        |*    $   <#      ~~~~~~~~#            v      ##",
@@ -53,28 +53,27 @@ gameMapString=[
   "##########################################################",
 ]
 
-
-'''
-Legend:
-
-# - hard wall, cannot destroy
-| - same as #
-@ - player
-~ - water, can be traversed, but uses up health
-  - air, can be traversed
-> - glider
-< - glider
-v - glider
-^ - glider
-H - door can only be opened with a key
-= - wooden planks
-+ - health
-* - fire gem
-$ - gold
-J - key
-i - tells you info, or changes stuff
-
-'''
+def prinLegend():
+  print("")
+  print("Legend:")
+  print("")
+  print("# - hard wall, cannot destroy")
+  print("| - same as #")
+  print("@ - player")
+  print("~ - water, can be traversed, but uses up health")
+  print("  - air, can be traversed")
+  print("> - glider")
+  print("< - glider")
+  print("v - glider")
+  print("^ - glider")
+  print("H - door can only be opened with a key")
+  print("= - wooden planks")
+  print("+ - health")
+  print("* - fire gem")
+  print("$ - gold")
+  print("J - key")
+  print("i - tells you info, or changes stuff")
+  print("")
 
 autoActions=""
 
@@ -111,6 +110,18 @@ inventory={
   '+': 3.0,
   'i': 0
 }
+
+updatesGameMap=[]
+for x in range(0, len(gameMapString[0])-1):
+  updatesGameMap.append([])
+  # updatesGameMap[x]=[]
+  for y in range(0, len(gameMapString)-1):
+    updatesGameMap[x].append(False)
+
+def resetUpdatesMap():
+  for x in range(0, len(gameMap)-1):
+    for y in range(0, len(gameMap[0])-1):
+      updatesGameMap[x][y]=False
 
 def resetGame():
   global gameMap
@@ -209,6 +220,7 @@ def movePlayer(deltaX, deltaY):
   global gameMap
   global player
   global inventory
+  global collectedInfo
 
   stuffInfront=gameMap[player[0]+deltaX][player[1]+deltaY]
   
@@ -217,8 +229,9 @@ def movePlayer(deltaX, deltaY):
     #remove health if water
     if gameMap[player[0]+deltaX][player[1]+deltaY]=='~':
       inventory['+']-=0.2;
+      print("You moved through \"~\" and lost 0.2 \"+\"")
 
-      #if we loose, we loose
+      #if we lose, we lose
       if inventory['+']<=0:
         gameMap[player[0]][player[1]]=" "
         return
@@ -237,6 +250,7 @@ def movePlayer(deltaX, deltaY):
     if stuffInfront=='i':
         collectedInfo=True
     
+    print(f"You got 1 \"{stuffInfront}\"")
     inventory[stuffInfront]+=1
     gameMap[player[0]+deltaX][player[1]+deltaY]=" "
     
@@ -247,29 +261,43 @@ def movePlayer(deltaX, deltaY):
     if stuffInfront=='=':
       if inventory['*']>0:
         inventory['*']-=1
+        print("You burned a \"=\" lost a \"*\"")
         gameMap[player[0]+deltaX][player[1]+deltaY]=" "
     elif stuffInfront=='H':
       if inventory['J']>0:
         inventory['J']-=1
+        print("You opened a \"H\" and lost a \"J\"")
         gameMap[player[0]+deltaX][player[1]+deltaY]=" "
       
 
 
 def updateGlider(x, y, dx, dy, altState):
-
+  global updatesGameMap
+  global gameMap
+  
   #destroy if breakable
   if isBreakable(gameMap[x+dx][y+dy]):
+    print(f"{gameMap[x][y]} destroyed {gameMap[x+dx][y+dy]}")
     gameMap[x+dx][y+dy]=" "
+    updatesGameMap[x+dx][y+dy]=True
     
   if isTraversable(gameMap[x+dx][y+dy]):
     swap((x, y), (x+dx, y+dy))
+    updatesGameMap[x+dx][y+dy]=True
   else:
     gameMap[x][y]=altState
 
+  updatesGameMap[x][y]=True
+
   
 def updateGliders():
+  global updatesGameMap
+  
   for x in range(1, len(gameMap)-1):
     for y in range(1, len(gameMap[0])-1):
+      if updatesGameMap[x][y]:
+        continue
+
       if gameMap[x][y]=='>':
         updateGlider(x, y, 1, 0, '<')
       elif gameMap[x][y]=='<':
@@ -278,13 +306,13 @@ def updateGliders():
         updateGlider(x, y, 0, -1, 'v')
       elif gameMap[x][y]=='v':
         updateGlider(x, y, 0, 1, '^')
-        
+
+  resetUpdatesMap()
   
   
 def updateMap():
   global playerIsDead
   global playerWon
-  global collectedInfo
   global info
   
   updateGliders()
@@ -294,23 +322,34 @@ def updateMap():
     playerIsDead=True
     return
 
-  if collectedInfo:
-    collectedInfo=False
-    print(info[inventory['i']-1])
-
-    if inventory['i']==7:
-      visibility=6
-    elif inventory['i']==8:
-      visibility=4
-    elif inventory['i']==9:
-      playerWon=True
-      return
   
   
   
 
 def updatePlayerAndMap(dx, dy):
+  global collectedInfo
+  global inventory
+  global visibility
+  global playerWon
+  
   movePlayer(dx, dy)
   updateMap()
+
+
+  #manage which info to display
+  if collectedInfo:
+    collectedInfo=False
+
+    print()
+    print(info[inventory['i']-1])
+    print()
+
+    if inventory['i']==7:
+      visibility=8
+    elif inventory['i']==8:
+      visibility=4
+    elif inventory['i']==9:
+      playerWon=True
+      return
 
 
