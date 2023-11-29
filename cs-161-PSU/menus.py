@@ -44,8 +44,7 @@ def playATurn(choice):
   elif choice == "d":
     (dx, dy)=(1, 0)
   elif choice== "e":
-    # printInventory()
-    print("aaaa")
+    printInventory()
   else:
     print("invalid input")
     return
@@ -60,7 +59,6 @@ def main_loop_Menu():
   
   printBoard()
   
-  gameOver=False
   previousChoice="none"
   while not gameOver:
     
@@ -71,40 +69,12 @@ def main_loop_Menu():
       
     playATurn(choice)
     
-    # if choice == "w":
-    #   movePlayer(0, -1)
-    # elif choice == "a":
-    #   movePlayer(-1, 0)
-    # elif choice == "s":
-    #   movePlayer(0, 1)
-    # elif choice == "d":
-    #   movePlayer(1, 0)
 
-      
-      
-    # else:
-    #   validInput=False
+def printInvetory():
 
-
-    # if validInput:
-    #   previousChoice=choice
-    #   updateMap()
-    #   printBoard()
-    # else:
-    #   print("invalid input")
-
-def invatory_menu():
-  keys = 0
-  print("you have collected the following keys: ")
+  print("Your inventoy: ")
   for item in inventory:
-    print(item)
-    keys += 1
-  print("you have collected", keys, "keys")
-  choice = input("type 1 to go back to the menu: ")
-  if choice == "1":
-    main_menu()
-  else:
-    print("invalid input")
-    invatory_menu()
+    print(f"{item} = {inventory[item]}")
+  print()
 
 
