@@ -67,6 +67,7 @@ def printHelp():
   print('When you run into object you auto interact with them')
   print('Oh and btw make sure you collect the "i"\'s, they\'ll help you')
   print('Alright that\' all you need to know\n')
+  print('("q" quits the game)')
 
   
 
@@ -85,6 +86,17 @@ def main_loop_Menu():
     
     choice = input("click WASD keys to move\nor E to print inventory: ").lower()
 
+    #in case we wanna quit the current game
+    if choice=="q":
+      print("are you sure you wanna quit?")
+      choice=input('Type "yes": ')
+
+      if choice=="yes":
+        return
+      else:
+        continue
+
+      
     #if we just press enter play the previous input
     if len(choice)==0:
       choice=previousChoice
