@@ -17,17 +17,19 @@ from logic import inventory
 
 def main_menu():
   print("welcome to our escape room Game!")
-  choice = input("type 1 to start and 0 to quit: ")
+
+  while True:
+    choice = input("Type 2 to autoplay the game\nType 1 to start\nType 0 to quit\ninput: ")
   
-  if choice == "1":
-    print("Starting the game")
-    main_loop_Menu()
-  elif choice == "0":
-    print("you choose to quit ")
-    quit()
-  else:
-    print("invalid input")
-    main_menu()
+    if choice == "1":
+      print("Starting the game")
+      main_loop_Menu()
+    elif choice == "0":
+      print("you choose to quit ")
+      quit()
+    else:
+      print("invalid input")
+    
 
 
 def main_loop_Menu():
