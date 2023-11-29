@@ -9,7 +9,6 @@ This is part of the Escape Room Game
 '''
 
 
-#WIP game map
 gameMapString=[
   "##########################################################",
   "#      J #~~~~~~~~~    i      #    #i* #  J             <#",
