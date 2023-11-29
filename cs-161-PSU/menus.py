@@ -49,9 +49,7 @@ def playATurn(choice):
     (dx, dy)=(1, 0)
   elif choice=="e":
     printInventory()
-  elif choice==" ":
-    print("no actions performed")
-  else:
+  elif choice!=" ":
     print("invalid input")
     return False
 

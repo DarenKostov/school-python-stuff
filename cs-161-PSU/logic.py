@@ -97,6 +97,8 @@ breakableThings=['@', '=']
 collectableThings=['$', 'J', '*', '+', 'i']
 interactableThings=['=', 'H']
 
+displayMessages=True
+changeVision=True
 
 player=(2, 2)
 playerIsDead=False
@@ -123,7 +125,7 @@ def resetUpdatesMap():
     for y in range(0, len(gameMap[0])-1):
       updatesGameMap[x][y]=False
 
-def resetGame():
+def resetGame(how):
   global gameMap
   global gameMapString
   global player
@@ -131,12 +133,22 @@ def resetGame():
   global playerWon
   global visibility
   global inventory
+  global displayMessages
+  global changeVision
+  
+  if how=="normal":
+    displayMessages=True
+    changeVision=True
+    visibility=4
+  elif how=="auto":
+    displayMessages=False
+    changeVision=False
+    visibility=8
   
   #set all game values
   player=(2, 2)
   playerIsDead=False
   playerWon=False
-  visibility=4
 
   inventory={
     '$': 0,
@@ -161,6 +173,12 @@ def resetGame():
       y+=1
     x+=1
   
+
+#allows to control what gets printed with only 1 variable
+def printMsg(message):
+  global displayMessages
+  if displayMessages:
+    print(message)
 
 
 def didPlayerWin():
@@ -229,7 +247,7 @@ def movePlayer(deltaX, deltaY):
     #remove health if water
     if gameMap[player[0]+deltaX][player[1]+deltaY]=='~':
       inventory['+']-=0.2;
-      print("You moved through \"~\" and lost 0.2 \"+\"")
+      printMsg("You moved through \"~\" and lost 0.2 \"+\"")
 
       #if we lose, we lose
       if inventory['+']<=0:
@@ -250,7 +268,7 @@ def movePlayer(deltaX, deltaY):
     if stuffInfront=='i':
         collectedInfo=True
     
-    print(f"You got 1 \"{stuffInfront}\"")
+    printMsg(f"You got 1 \"{stuffInfront}\"")
     inventory[stuffInfront]+=1
     gameMap[player[0]+deltaX][player[1]+deltaY]=" "
     
@@ -261,12 +279,12 @@ def movePlayer(deltaX, deltaY):
     if stuffInfront=='=':
       if inventory['*']>0:
         inventory['*']-=1
-        print("You burned a \"=\" lost a \"*\"")
+        printMsg("You burned a \"=\" lost a \"*\"")
         gameMap[player[0]+deltaX][player[1]+deltaY]=" "
     elif stuffInfront=='H':
       if inventory['J']>0:
         inventory['J']-=1
-        print("You opened a \"H\" and lost a \"J\"")
+        printMsg("You opened a \"H\" and lost a \"J\"")
         gameMap[player[0]+deltaX][player[1]+deltaY]=" "
       
 
@@ -277,7 +295,7 @@ def updateGlider(x, y, dx, dy, altState):
   
   #destroy if breakable
   if isBreakable(gameMap[x+dx][y+dy]):
-    print(f"{gameMap[x][y]} destroyed {gameMap[x+dx][y+dy]}")
+    printMsg(f"{gameMap[x][y]} destroyed {gameMap[x+dx][y+dy]}")
     gameMap[x+dx][y+dy]=" "
     updatesGameMap[x+dx][y+dy]=True
     
@@ -340,13 +358,14 @@ def updatePlayerAndMap(dx, dy):
   if collectedInfo:
     collectedInfo=False
 
-    print()
-    print(info[inventory['i']-1])
-    print()
+    printMsg("")
+    printMsg(info[inventory['i']-1])
+    printMsg("")
 
-    if inventory['i']==7:
+    
+    if inventory['i']==7 and changeVision:
       visibility=8
-    elif inventory['i']==8:
+    elif inventory['i']==8 and changeVision:
       visibility=4
     elif inventory['i']==9:
       playerWon=True
