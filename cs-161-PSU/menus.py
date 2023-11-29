@@ -24,6 +24,9 @@ def main_menu():
     if choice == "1":
       print("Starting the game")
       main_loop_Menu()
+    elif choice == "2":
+      print("Starting the game in auto mode")
+      mainGameLoopAuto()
     elif choice == "0":
       print("you choose to quit ")
       quit()
@@ -47,15 +50,19 @@ def playATurn(choice):
     printInventory()
   else:
     print("invalid input")
-    return
+    return False
 
   
   updatePlayerAndMap(dx, dy)
   printBoard()
 
+  return True
+
 
 
 def main_loop_Menu():
+  global playerIsDead
+  global playerWon
   
   printBoard()
   
@@ -63,11 +70,15 @@ def main_loop_Menu():
   while not gameOver:
     
     choice = input("click WASD keys to move\nor E to print inventory: ").lower()
-    
+
+    #if we just press enter play the previous input
     if len(choice)==0:
       choice=previousChoice
-      
-    playATurn(choice)
+
+
+    #if the input was valid, remember it
+    if playATurn(choice):
+      previousChoice=choice    
     
 
 def printInvetory():
