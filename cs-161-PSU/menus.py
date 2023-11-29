@@ -63,11 +63,13 @@ def playATurn(choice):
 def main_loop_Menu():
   global playerIsDead
   global playerWon
+  resetGame()
   
   printBoard()
   
   previousChoice="none"
-  while not gameOver:
+  #while the player has not yet won or lost run the loop
+  while playerIsDead+playerWon==0:
     
     choice = input("click WASD keys to move\nor E to print inventory: ").lower()
 
@@ -80,6 +82,22 @@ def main_loop_Menu():
     if playATurn(choice):
       previousChoice=choice    
     
+  if playerWon:
+    print("/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\\")
+    print("|==[O]==YOU======()==|")
+    print("|=(:)=====WIN=={$}===|")
+    print("\\____________________/")
+  else:
+    print("                      ")
+    print("        YOU           ")
+    print("          LOSE        ")
+    print("                      ")
+
+
+
+
+
+
 
 def printInvetory():
 
