@@ -66,7 +66,7 @@ def prinLegend():
   print("< - glider")
   print("v - glider")
   print("^ - glider")
-  print("H - door can only be opened with a key")
+  print("H - door, can only be opened with a key")
   print("= - wooden planks")
   print("+ - health")
   print("* - fire gem")
