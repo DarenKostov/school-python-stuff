@@ -9,7 +9,7 @@ This is part of the Escape Room Game
 '''
 
 
-from menus import *
+from menus import main_menu
 
 
 #start the game

@@ -152,9 +152,14 @@ def resetGame():
   
 
 
+def didPlayerWin():
+  return playerWon
 
+def didPlayerDie():
+  return playerIsDead
 
-
+def getInventory():
+  return inventory
 
 def printBoard():
   global gameMap
@@ -230,10 +235,11 @@ def movePlayer(deltaX, deltaY):
 
     #collecting info?
     if stuffInfront=='i':
-      collectedInfo=True
+        collectedInfo=True
     
     inventory[stuffInfront]+=1
     gameMap[player[0]+deltaX][player[1]+deltaY]=" "
+    
     movePlayer(deltaX, deltaY)
 
   #if burnable/openable, auto burn/open it if possible
@@ -242,7 +248,7 @@ def movePlayer(deltaX, deltaY):
       if inventory['*']>0:
         inventory['*']-=1
         gameMap[player[0]+deltaX][player[1]+deltaY]=" "
-    if stuffInfront=='H':
+    elif stuffInfront=='H':
       if inventory['J']>0:
         inventory['J']-=1
         gameMap[player[0]+deltaX][player[1]+deltaY]=" "

@@ -10,7 +10,6 @@ This is part of the Escape Room Game
 
 
 from logic import *
-from logic import inventory
 
 
 
@@ -73,8 +72,7 @@ def printHelp():
 
 
 def main_loop_Menu():
-  global playerIsDead
-  global playerWon
+
   resetGame()
   
   printHelp()
@@ -83,7 +81,7 @@ def main_loop_Menu():
   
   previousChoice="none"
   #while the player has not yet won or lost run the loop
-  while playerIsDead+playerWon==0:
+  while didPlayerDie()+didPlayerWin()==0:
     
     choice = input("click WASD keys to move\nor E to print inventory: ").lower()
 
@@ -96,7 +94,7 @@ def main_loop_Menu():
     if playATurn(choice):
       previousChoice=choice    
     
-  if playerWon:
+  if didPlayerWin():
     print("/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾\\")
     print("|==[O]==YOU======()==|")
     print("|=(:)=====WIN=={$}===|")
@@ -110,13 +108,15 @@ def main_loop_Menu():
 
 
 def mainGameLoopAuto():
+  print("aaa")
+
+
+
+def printInventory():
+  inventory=getInventory()
+
   
-
-
-
-def printInvetory():
-
-  print("Your inventoy: ")
+  print("\nYour inventoy: ")
   for item in inventory:
     print(f"{item} = {inventory[item]}")
   print()
