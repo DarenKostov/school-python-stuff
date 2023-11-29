@@ -112,20 +112,49 @@ inventory={
   'i': 0
 }
 
+def resetGame():
+  global gameMap
+  global gameMapString
+  global player
+  global playerIsDead
+  global playerWon
+  global visibility
+  global inventory
+  
+  #set all game values
+  player=(2, 2)
+  playerIsDead=False
+  playerWon=False
+  visibility=4
 
-#====> the 2 while loops <====
-#make the map into a 2d char array
-x=0
-while x<len(gameMapString[0]):
-  y=0
-  gameMap.append([])
-  gameMap[x]=[]
-  while y<len(gameMapString):
-    # print(y)
-    gameMap[x].append(0)
-    gameMap[x][y]=gameMapString[y][x]
-    y+=1
-  x+=1
+  inventory={
+    '$': 0,
+    'J': 0,
+    '*': 0,
+    '+': 3.0,
+    'i': 0
+  }
+
+  #====> the 2 while loops <====
+  #make the map into a 2d char array
+  gameMap=[]
+  x=0
+  while x<len(gameMapString[0]):
+    y=0
+    gameMap.append([])
+    gameMap[x]=[]
+    while y<len(gameMapString):
+      # print(y)
+      gameMap[x].append(0)
+      gameMap[x][y]=gameMapString[y][x]
+      y+=1
+    x+=1
+  
+
+
+
+
+
 
 def printBoard():
   global gameMap

@@ -63,9 +63,8 @@ def main_loop_Menu():
   gameOver=False
   previousChoice="none"
   while not gameOver:
-    validInput=True
     
-    choice = input("click WASD keys to move: ").lower()
+    choice = input("click WASD keys to move\nor E to print inventory: ").lower()
     
     if len(choice)==0:
       choice=previousChoice
