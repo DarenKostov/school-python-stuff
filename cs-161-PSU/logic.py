@@ -263,7 +263,11 @@ def updateMap():
     collectedInfo=False
     print(info[inventory['i']-1])
 
-    if inventory['i']==9:
+    if inventory['i']==7:
+      visibility=6
+    elif inventory['i']==8:
+      visibility=4
+    elif inventory['i']==9:
       playerWon=True
       return
   
@@ -273,7 +277,5 @@ def updateMap():
 def updatePlayerAndMap(dx, dy):
   movePlayer(dx, dy)
   updateMap()
-
-printBoard()
 
 
